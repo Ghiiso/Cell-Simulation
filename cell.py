@@ -3,6 +3,7 @@ import GlobalVar
 from Vector2 import Vector2
 import random
 import math
+import chunk
 
 class Cell:
     def __init__(self,pos) -> None:
@@ -17,8 +18,8 @@ class Cell:
 
         self.ciboTrovato=False
 
-        self.reprProb = random.randint(10,70) # probabilità che una cellula si riproduca quando mangia
-        
+        self.reprProb = random.randint(30,70) # probabilità che una cellula si riproduca quando mangia
+        self.chunkIndex = [0,0]
 
     def vivo(self):
         if self.vitaRimanente>0: return True
@@ -64,12 +65,13 @@ class Cell:
         '''
         if ciboArray:               # se l'array non è vuoto
             vicino = ciboArray[0]
-            distmin = self.pos.Sub(ciboArray[0].pos).sqrMag()
-            for c in ciboArray:     # calcola le distanze da ogni pellet
-                d=self.pos.Sub(c.pos).sqrMag()
-                if distmin > d:
-                    distmin = d
-                    vicino = c      # restituisce il pellet più vicino
+            distmin = self.pos.Sub(vicino.pos).sqrMag()
+            for c in ciboArray:     # calcola le distanze da ogni pellet nello stesso chunk
+                if self.chunkIndex == c.chunkIndex:
+                    d=self.pos.Sub(c.pos).sqrMag()
+                    if distmin > d:
+                        distmin = d
+                        vicino = c      # restituisce il pellet più vicino
             if math.sqrt(distmin)<=self.raggio: # se il pellet più vicino è nel raggio di visione
                 self.ciboTrovato = True
                 self.dir = vicino.pos   # imposta la direzione su quel pellet
@@ -87,6 +89,7 @@ class Cell:
 
     def update(self,cibo,arrcell):
         if self.vivo():
+            chunk.assegnaIndice(self,GlobalVar.chunkArr)
             self.muoviversodir()
 
             if not self.ciboTrovato:

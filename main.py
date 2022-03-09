@@ -8,6 +8,7 @@ from Vector2 import Vector2
 from Input import Input
 from cell import Cell
 from cibo import Cibo
+from chunk import Chunk
 import random
 
 pygame.init()

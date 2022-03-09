@@ -2,15 +2,19 @@ import pygame
 import GlobalVar
 import random
 from Vector2 import Vector2
+import chunk 
 
 class Cibo:
     def __init__(self,pos) -> None:
         self.pos = Vector2(pos[0],pos[1])
         self.color = GlobalVar.red
 
+        self.chunkIndex = [0,0]
+
     def renderizza(self):
         pygame.draw.circle(GlobalVar.MainWindow,self.color,self.pos.tuple(),2)
     def update(self):
+        chunk.assegnaIndice(self,GlobalVar.chunkArr)
         self.renderizza()
 
     def generaGriglia(arr,chunk):

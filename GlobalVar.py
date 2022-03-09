@@ -1,3 +1,4 @@
+import chunk
 import pygame
 def init():
     global displaySettings,resolution,MainWindow
@@ -5,7 +6,7 @@ def init():
     resolution = (displaySettings.current_w-100,displaySettings.current_h-100)
     MainWindow = pygame.display.set_mode(resolution,0)
 
-    global red,green,blue,white,black,speed0,varSpeed,g,tickSpeed,RadtoDeg,fps
+    global red,green,blue,white,black,speed0,varSpeed,g,tickSpeed,RadtoDeg,fps,chunkArr
     red = (255,0,0)
     green = (0,255,0)
     blue = (0,0,255)
@@ -17,3 +18,5 @@ def init():
     tickSpeed = 0.02
     RadtoDeg = 360/(3.14*2)
     fps = 60
+    chunkArr = chunk.init(resolution,5)
+        
