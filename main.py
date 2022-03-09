@@ -1,3 +1,4 @@
+
 import pygame
 import matplotlib.pyplot as plt
 import graph
@@ -22,6 +23,8 @@ sec=0
 time = []
 ciboLen = []
 cellLen = []
+mediaReprProb = []
+mediavel = []
 
 ciboArr = []
 cellArr = []
@@ -43,6 +46,10 @@ while runGame:
     if Input.Check(pygame.K_ESCAPE):
         runGame = False
 
+
+    totReprProb = 0
+    totvel = 0
+
     for cell in cellArr:
         cell.update(ciboArr,cellArr)
         if cell.ciboTrovato:
@@ -51,22 +58,27 @@ while runGame:
                     ciboArr.remove(cibo)
                     cell.mangia(cellArr)
             cell.ciboTrovato=False
+        totReprProb += cell.reprProb
+        totvel += cell.vel
 
-    for cibo in ciboArr:        
+    for cibo in ciboArr:  # ciclo per disegnare i pellet
         cibo.update()
     
     
-    if(i!=GlobalVar.fps):
+    if(i!=GlobalVar.fps): # esegue istruzioni ogni secondo
         i += 1
     else:
         i=0
         time.append(sec)
         sec += 1
-        ciboLen.append( len(ciboArr))
+        ciboLen.append(len(ciboArr))
         cellLen.append(len(cellArr))
-
+        if(len(cellArr)!=0):
+            mediaReprProb.append(totReprProb/len(cellArr))
+            mediavel.append(totvel/len(cellArr))
+        else: mediaReprProb.append(0)
 
     FPS.tick(GlobalVar.fps)
 pygame.quit()
 
-graph.mostraGrafici(cellLen,ciboLen,time)
+graph.mostraGrafici(cellLen,ciboLen,mediaReprProb,mediavel,time)

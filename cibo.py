@@ -17,7 +17,7 @@ class Cibo:
         '''
         genera una griglia di pellet e li aggiunge all'array ciboArray
         '''
-        chunkleght = [GlobalVar.resolution[0]/chunk,GlobalVar.resolution[1]/chunk] # divide la larghezza dello schermo in tot chunk
+        chunkleght = [int(GlobalVar.resolution[0]/chunk),int(GlobalVar.resolution[1]/chunk)] # divide la larghezza dello schermo in tot chunk
 
         for i in range(1,chunk+1):
             #pygame.draw.line(GlobalVar.MainWindow,GlobalVar.white,(chunkleght[0]*i,0),(chunkleght[0]*i,GlobalVar.resolution[1]))

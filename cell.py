@@ -16,6 +16,8 @@ class Cell:
         self.dir = Vector2(random.randrange(0,GlobalVar.resolution[0]),random.randrange(0,GlobalVar.resolution[1]))
 
         self.ciboTrovato=False
+
+        self.reprProb = random.randint(10,70) # probabilità che una cellula si riproduca quando mangia
         
 
     def vivo(self):
@@ -35,7 +37,7 @@ class Cell:
 
     def renderizza(self):
         # disegna i raggi di visione
-        # pygame.draw.circle(GlobalVar.MainWindow,(100,100,100),self.pos.tuple(),self.raggio,1)
+        #pygame.draw.circle(GlobalVar.MainWindow,(100,100,100),self.pos.tuple(),self.raggio,1)
 
         # disegna le cellule
         pygame.draw.circle(GlobalVar.MainWindow,GlobalVar.white,self.pos.tuple(),self.dim)
@@ -45,11 +47,15 @@ class Cell:
     
     def generaFigli(self,numfigli,arr):
         '''
-        genera figli in base alla dimensione => in base a quanto ha mangiato
+        genera figli in base alla dimensione => in base a quanti pellet ha mangiato.
+        Ereditano determinati tratti dal genitore
         '''
         numfigli *= 2
         for i in range(numfigli):
-            arr.append(Cell(self.pos.tuple()))
+            newcell = Cell(self.pos.tuple())
+            newcell.vita0 = self.vita0
+            newcell.vel = self.vel
+            arr.append(newcell)
 
 
     def calcolaDistanze(self,ciboArray):
@@ -72,7 +78,7 @@ class Cell:
         '''
         decide se ingrandirsi o riprodursi
         '''
-        if random.choice([0,1]):
+        if random.randint(0,100) >= self.reprProb:
             self.dim += 1
             self.vitaRimanente += 10
         else:
@@ -85,7 +91,7 @@ class Cell:
 
             if not self.ciboTrovato:
                 self.calcolaDistanze(cibo)
-                if random.choice([0,1]) and not self.ciboTrovato:
+                if random.choice([0,1]) and not self.ciboTrovato: # 50%
                     self.cambiaDir(random.randrange(10,50))
 
             self.renderizza()
