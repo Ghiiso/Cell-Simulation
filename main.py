@@ -14,6 +14,9 @@ GlobalVar.init()
 runGame=True
 FPS = pygame.time.Clock()
 
+startcellule = 5
+startpellet = 5
+
 i=0
 sec=0
 time = []
@@ -22,7 +25,7 @@ cellLen = []
 
 ciboArr = []
 cellArr = []
-for i in range(50): # genera le cellule
+for i in range(startcellule): # genera le cellule
     rand = (random.randrange(30,GlobalVar.resolution[0]-30),random.randrange(30,GlobalVar.resolution[1]-30))
 
     cellArr.append(Cell(rand))
@@ -35,7 +38,7 @@ while runGame:
         if event.type == pygame.QUIT:
             runGame = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            Cibo.generaGriglia(ciboArr,10)
+            Cibo.generaGriglia(ciboArr,startpellet)
 
     if Input.Check(pygame.K_ESCAPE):
         runGame = False
